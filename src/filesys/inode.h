@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "filesys/off_t.h"
 #include "devices/block.h"
+#include "threads/synch.h"
 
 struct bitmap;
 
@@ -20,4 +21,7 @@ void inode_deny_write (struct inode *);
 void inode_allow_write (struct inode *);
 off_t inode_length (const struct inode *);
 
+int deny_count (struct inode *);
+int inode_open_count (struct inode*);
+//struct lock* inode_dir_lock (struct inode*);
 #endif /* filesys/inode.h */

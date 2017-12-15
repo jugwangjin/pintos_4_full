@@ -72,10 +72,20 @@ free_map_close (void)
 void
 free_map_create (void) 
 {
-  /* Create inode. */
+  struct inode_disk *disk_inode = malloc (BLOCK_SECTOR_SIZE);
+  int i;
+   /* Create inode. */
   if (!inode_create (FREE_MAP_SECTOR, bitmap_file_size (free_map)))
     PANIC ("free map creation failed");
-
+/* 
+  disk_inode->direct[0] = FREE_MAP_SECTOR;
+  for (i = 1; i < 10; i++)
+    disk_inode->direct[i] = -1;
+  disk_inode->single_level = -1;
+  disk_inode->double_level = -1;
+  disk_inode->length = bitmap_file_size (free_map);
+  block_write (fs_device, FREE_MAP_SECTOR, disk_inode);
+  */ 
   /* Write bitmap to file. */
   free_map_file = file_open (inode_open (FREE_MAP_SECTOR));
   if (free_map_file == NULL)
